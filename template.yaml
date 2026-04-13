@@ -1,22 +1,22 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: Despliegue Finsy - Intento Final Corregido
+Description: Despliegue Finsy - Version Final Limpia
 
 Resources:
+  # Cambiamos el nombre del bucket para descartar colisiones globales
   FinsyS3Bucket:
     Type: AWS::S3::Bucket
     Properties:
-      # Nombre unico para evitar conflictos globales
-      BucketName: finsy-mya-deploy-final-2026
+      BucketName: finsy-mya-deploy-v2026
 
   FinsyInstance:
     Type: AWS::EC2::Instance
     Properties:
+      # Escribe esto manualmente si puedes: ami-0e2c8ccd4e1223c32
+      ImageId: ami-0e2c8ccd4e1223c32
       InstanceType: t2.micro
-      # ID limpio sin comillas para evitar el error de "Invalid id"
-      ImageId: ami-0e2c8ccd4e1223c32 
-      # RECUERDA: Verifica que en EC2 > Key Pairs el nombre sea MyA_Key
-      KeyName: MyA_Key
       IamInstanceProfile: LabInstanceProfile
+      # Asegúrate que el nombre de tu llave sea exactamente MyA_Key
+      KeyName: MyA_Key
       Tags:
         - Key: Name
           Value: Finsy-Server-Prod
@@ -28,7 +28,5 @@ Resources:
           systemctl start docker
           systemctl enable docker
           usermod -aG docker ubuntu
-          
-          # Clonar proyecto
           cd /home/ubuntu
           git clone https://github.com/Racoth505/MyA_ProyectoDevOps.git
