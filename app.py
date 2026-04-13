@@ -2,7 +2,7 @@ import boto3
 
 # Configuración centralizada
 # NOTA: Asegúrate de que este ID de Security Group exista en tu consola actual
-SG_ID = 'sg-045d9a68a3dc02f34' 
+SG_ID = 'sg-0147f028d35b6daa0 ' 
 AMI_UBUNTU = 'ami-0e2c8ccd4e1223c32' # Ubuntu 24.04 LTS en us-east-1
 
 ec2 = boto3.resource('ec2')

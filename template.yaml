@@ -1,44 +1,43 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: 'Infraestructura Finsy: EC2 con Docker + S3 para Malvados y Asociados'
+Description: 'Infraestructura Finsy: EC2 corregida para Learner Lab'
 
 Resources:
-  # Bucket solicitado
+  # Cambiamos el nombre para que sea único
   FinsyS3Bucket:
     Type: AWS::S3::Bucket
     Properties:
       BucketName: mya-finsy
 
-  # Instancia de Servidor Web / App
   FinsyInstance:
     Type: AWS::EC2::Instance
     Properties:
       InstanceType: t2.micro
-      ImageId: ami-0e2c8ccd4e1223c32 # Ubuntu 24.04 LTS (Asegurar región)
-      # Requisito de Learner Lab:
+      ImageId: ami-0e2c8ccd4e1223c32 # Ubuntu 24.04
+      # CRÍTICO: LabInstanceProfile es obligatorio
       IamInstanceProfile: LabInstanceProfile
+      # Usa el nombre de tu llave sin el .pem
+      KeyName: MyA_Key 
       Tags:
         - Key: Name
           Value: Finsy-Server-Prod
       
-      # Automatización: Aquí inyectamos el setup.sh
+      # Automatización corregida con la sangría exacta
       UserData: 
         Fn::Base64: !Sub |
           #!/bin/bash
           apt update -y && apt upgrade -y
-          apt install -y git vim curl docker.io python3-pip
+          apt install -y git docker.io python3-pip
           systemctl start docker
           systemctl enable docker
           usermod -aG docker ubuntu
           
-          # Clonar el proyecto directamente (Ahorra pasos manuales)
+          # Clonar el proyecto
           cd /home/ubuntu
-          git clone https://github.com/Racoth505/Malvados_y_Asociados.git
+          git clone https://github.com/Racoth505/MyA_ProyectoDevOps.git
           
           echo "Despliegue inicial completado" > /var/log/user_data_status.log
 
 Outputs:
-  BucketName:
-    Value: !Ref FinsyS3Bucket
   PublicIP:
-    Description: IP publica para acceder a Finsy
+    Description: IP para acceder a la instancia
     Value: !GetAtt FinsyInstance.PublicIp
