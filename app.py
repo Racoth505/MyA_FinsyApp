@@ -2,8 +2,9 @@ import boto3
 
 # Configuración centralizada
 # NOTA: Asegúrate de que este ID de Security Group exista en tu consola actual
-SG_ID = 'sg-0147f028d35b6daa0 ' 
+SG_ID = 'sg-0147f028d35b6daa0'
 AMI_UBUNTU = 'ami-0e2c8ccd4e1223c32' # Ubuntu 24.04 LTS en us-east-1
+LLAVE_NOMBRE = 'MyA_Key' # Nombre de tu llave en AWS
 
 ec2 = boto3.resource('ec2')
 client = boto3.client('ec2')
@@ -28,6 +29,7 @@ def crear_ec2():
             MinCount=1,
             MaxCount=1,
             InstanceType='t2.micro',
+            KeyName=LLAVE_NOMBRE,
             SecurityGroupIds=[SG_ID],
             # CRÍTICO: LabRole es el único permitido en Learner Lab
             IamInstanceProfile={'Name': 'LabInstanceProfile'}, 
