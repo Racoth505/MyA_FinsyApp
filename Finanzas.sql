@@ -1,0 +1,43 @@
+CREATE DATABASE Finanzas;
+
+USE Finanzas;
+
+CREATE TABLE usuarios (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nombre VARCHAR(50) NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  rol ENUM('comun', 'admin') NOT NULL DEFAULT 'comun',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE gastos (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  cantidad DECIMAL(10,2) NOT NULL,
+  fecha DATE NOT NULL,
+  concepto VARCHAR(25) NOT NULL,
+  categoria VARCHAR(30) NOT NULL,
+  color_categoria VARCHAR(10) NOT NULL,
+  usuario_id INT,
+  FOREIGN KEY (usuario_id) REFERENCES Usuarios(id)
+);
+
+CREATE TABLE ingresos (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  cantidad DECIMAL(10,2) NOT NULL,
+  fecha DATE NOT NULL,
+  concepto VARCHAR(25) NOT NULL,
+  usuario_id INT,
+  FOREIGN KEY (usuario_id) REFERENCES Usuarios(id)
+);
+
+CREATE TABLE categorias (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nombre VARCHAR(30) NOT NULL,
+  color VARCHAR(10) NOT NULL,
+  usuario_id INT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE KEY uk_categoria_usuario (usuario_id, nombre),
+  FOREIGN KEY (usuario_id) REFERENCES Usuarios(id) ON DELETE CASCADE
+);
+
+UPDATE Usuarios SET rol = 'admin' WHERE id = 1;
