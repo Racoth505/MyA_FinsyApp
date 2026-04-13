@@ -1,43 +1,34 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: 'Infraestructura Finsy: EC2 corregida para Learner Lab'
+Description: Despliegue Finsy - Intento Final Corregido
 
 Resources:
-  # Cambiamos el nombre para que sea único
   FinsyS3Bucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: mya-finsy
+      # Nombre unico para evitar conflictos globales
+      BucketName: finsy-mya-deploy-final-2026
 
   FinsyInstance:
     Type: AWS::EC2::Instance
     Properties:
       InstanceType: t2.micro
-      ImageId: ami-0e2c8ccd4e1223c32 # Ubuntu 24.04
-      # CRÍTICO: LabInstanceProfile es obligatorio
+      # ID limpio sin comillas para evitar el error de "Invalid id"
+      ImageId: ami-0e2c8ccd4e1223c32 
+      # RECUERDA: Verifica que en EC2 > Key Pairs el nombre sea MyA_Key
+      KeyName: MyA_Key
       IamInstanceProfile: LabInstanceProfile
-      # Usa el nombre de tu llave sin el .pem
-      KeyName: MyA_Key 
       Tags:
         - Key: Name
           Value: Finsy-Server-Prod
-      
-      # Automatización corregida con la sangría exacta
-      UserData: 
+      UserData:
         Fn::Base64: !Sub |
           #!/bin/bash
-          apt update -y && apt upgrade -y
-          apt install -y git docker.io python3-pip
+          apt-get update -y
+          apt-get install -y git docker.io
           systemctl start docker
           systemctl enable docker
           usermod -aG docker ubuntu
           
-          # Clonar el proyecto
+          # Clonar proyecto
           cd /home/ubuntu
           git clone https://github.com/Racoth505/MyA_ProyectoDevOps.git
-          
-          echo "Despliegue inicial completado" > /var/log/user_data_status.log
-
-Outputs:
-  PublicIP:
-    Description: IP para acceder a la instancia
-    Value: !GetAtt FinsyInstance.PublicIp
