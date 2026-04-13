@@ -1,22 +1,26 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: Despliegue Finsy - Version Final Limpia
+Description: Despliegue Finsy - Infraestructura como Codigo (IaC)
+
+Parameters:
+  LatestAmiId:
+    Type: 'AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>'
+    Default: '/aws/service/canonical/ubuntu/server/24.04/stable/current/amd64/hvm/ebs-gp3/ami-id'
 
 Resources:
-  # Cambiamos el nombre del bucket para descartar colisiones globales
+  # Bucket S3 para el proyecto
   FinsyS3Bucket:
     Type: AWS::S3::Bucket
     Properties:
       BucketName: finsy-mya-deploy-v2026
 
+  # Servidor EC2 con Docker y Proyecto pre-instalado
   FinsyInstance:
     Type: AWS::EC2::Instance
     Properties:
-      # Escribe esto manualmente si puedes: ami-0e2c8ccd4e1223c32
-      ImageId: ami-0e2c8ccd4e1223c32
+      ImageId: !Ref LatestAmiId
       InstanceType: t2.micro
+      KeyName: MyA_Key # <--- RECUERDA: Verifica que este nombre sea igual al de tu consola
       IamInstanceProfile: LabInstanceProfile
-      # Asegúrate que el nombre de tu llave sea exactamente MyA_Key
-      KeyName: MyA_Key
       Tags:
         - Key: Name
           Value: Finsy-Server-Prod
