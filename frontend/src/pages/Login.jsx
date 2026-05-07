@@ -57,7 +57,7 @@ export default function Login() {
   return (
     <main className="page">
       <section className="left">
-        <div className="logo">FINSY</div>
+        <div className="logo">FINSY 2</div>
       </section>
 
       <section className="right">
