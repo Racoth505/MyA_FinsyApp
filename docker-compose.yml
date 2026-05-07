@@ -1,38 +1,17 @@
 version: '3.8'
 
 services:
-  # Base de Datos MySQL
-  db:
-    image: mysql:8.0
-    container_name: finsy_db
+  finsy-app:
+    # Jenkins sustituirá esto con la imagen que construya
+    image: ${DOCKER_IMAGE_NAME:-finsy-app:latest}
+    container_name: finsy-container
+    ports:
+      - "80:5000"
     environment:
-      MYSQL_ROOT_PASSWORD: root_password
-      MYSQL_DATABASE: finsy_db
-    # Cargamos tu script SQL automáticamente al iniciar
-    volumes:
-      - ./Finanzas.sql:/docker-entrypoint-initdb.d/init.sql
-    ports:
-      - "3306:3306"
+      - DATABASE_URL=postgresql://user:password@${DB_INSTANCE_IP}:5432/finsydb
+      - AWS_DEFAULT_REGION=us-east-1
+    restart: always
 
-  # API Backend
-  backend:
-    build: ./Backend
-    container_name: finsy_backend
-    ports:
-      - "5000:5000"
-    depends_on:
-      - db
-    environment:
-      - DB_HOST=db
-      - DB_USER=root
-      - DB_PASSWORD=root_password
-      - DB_NAME=finsy_db
-
-  # Aplicación Frontend
-  frontend:
-    build: ./frontend
-    container_name: finsy_frontend
-    ports:
-      - "80:80"
-    depends_on:
-      - backend
+networks:
+  default:
+    name: finsy-network
