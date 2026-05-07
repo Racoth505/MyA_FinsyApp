@@ -57,7 +57,7 @@ export default function Login() {
   return (
     <main className="page">
       <section className="left">
-        <div className="logo">PRUEBA</div>
+        <div className="logo">FINSY</div>
       </section>
 
       <section className="right">
