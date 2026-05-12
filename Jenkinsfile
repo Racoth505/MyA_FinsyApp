@@ -27,6 +27,8 @@ export DB_PRIVATE_IP=172.31.44.216
 
 cd ~/MyA_FinsyStructure
 
+git pull
+
 docker-compose down
 docker-compose up -d
 
