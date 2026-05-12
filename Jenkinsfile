@@ -10,7 +10,7 @@ pipeline {
         stage('Deploy Application') {
             steps {
                 sh '''
-ssh ubuntu@98.83.23.187 << 'EOF'
+ssh ubuntu@98.83.23.187
 
 cd ~/MyA_FinsyApp
 
