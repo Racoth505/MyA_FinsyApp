@@ -9,7 +9,7 @@ pipeline {
         stage('Deploy Application') {
             steps {
                 sh '''
-                ssh ubuntu@98.81.9.103 << 'EOF'
+                ssh -o StrictHostKeyChecking=no ubuntu@98.81.9.103 << 'EOF'
 
                 cd ~/MyA_FinsyApp
 
