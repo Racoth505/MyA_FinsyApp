@@ -10,7 +10,7 @@ pipeline {
         stage('Deploy Application') {
             steps {
                 sh '''
-ssh ubuntu@98.83.23.187 << 'EOF'
+ssh ubuntu@54.160.175.193 << 'EOF'
 
 cd ~/MyA_FinsyApp
 
@@ -22,8 +22,8 @@ docker build -t finsy-backend:latest .
 cd ../frontend
 docker build -t finsy-frontend:latest .
 
-export APP_PUBLIC_IP=98.83.23.187
-export DB_PRIVATE_IP=localhost
+export APP_PUBLIC_IP=54.160.175.193
+export DB_PRIVATE_IP=172.31.44.216
 
 cd ~/MyA_FinsyStructure
 
