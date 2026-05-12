@@ -6,33 +6,31 @@ pipeline {
     }
 
     stages {
-
         stage('Deploy Application') {
             steps {
                 sh '''
-ssh ubuntu@54.160.175.193 << 'EOF'
+                ssh ubuntu@54.160.175.193 << 'EOF'
 
-cd ~/MyA_FinsyApp
+                cd ~/MyA_FinsyApp
 
-git pull
+                git pull origin main
 
-cd Backend
-docker build -t finsy-backend:latest .
+                cd Backend
+                docker build -t finsy-backend:latest .
 
-cd ../frontend
-docker build -t finsy-frontend:latest .
+                cd ../frontend
+                docker build -t finsy-frontend:latest .
 
-export APP_PUBLIC_IP=54.160.175.193
-export DB_PRIVATE_IP=172.31.44.216
+                cd ~/MyA_FinsyStructure
+                git pull origin main
 
-cd ~/MyA_FinsyStructure
+                export APP_PUBLIC_IP=54.160.175.193
+                export DB_PRIVATE_IP=172.31.44.216
 
-git pull
+                docker-compose down
+                docker-compose up -d
 
-docker-compose down
-docker-compose up -d
-
-docker ps
+                docker ps
 
 EOF
 '''
