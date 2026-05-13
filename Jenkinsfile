@@ -28,8 +28,7 @@ pipeline {
                 export DB_PRIVATE_IP=172.31.44.216
 
                 docker-compose down
-                docker-compose up -d
-                docker compose up -d --force-recreate
+                docker-compose up -d --force-recreate
                 docker ps
 
 EOF
