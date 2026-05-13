@@ -14,6 +14,7 @@ FROM nginx:stable-alpine
 # Copiamos los archivos generados. 
 # IMPORTANTE: Verifica si tu proyecto genera la carpeta 'dist' o 'build'
 COPY --from=build-stage /app/dist /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Copiamos una configuración de Nginx si la tuvieras (opcional)
 # COPY nginx.conf /etc/nginx/conf.d/default.conf

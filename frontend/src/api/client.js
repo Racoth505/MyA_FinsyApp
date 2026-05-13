@@ -1,6 +1,6 @@
 const API_BASE =
   import.meta.env.VITE_API_BASE_URL ||
-  (import.meta.env.DEV ? "http://localhost:5000" : `${window.location.protocol}//${window.location.hostname}:5000`));
+  (import.meta.env.DEV ? "http://localhost:5000" : "");
 
 export async function apiFetch(path, options = {}) {
   const token = localStorage.getItem("token");
