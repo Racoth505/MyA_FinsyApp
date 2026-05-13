@@ -9,7 +9,7 @@ pipeline {
         stage('Deploy Application') {
             steps {
                 sh '''
-                ssh -o StrictHostKeyChecking=no ubuntu@98.81.9.103 << 'EOF'
+                ssh -o StrictHostKeyChecking=no ubuntu@54.152.73.129 << 'EOF'
 
                 cd ~/MyA_FinsyApp
 
@@ -24,7 +24,7 @@ pipeline {
                 cd ~/MyA_FinsyStructure
                 git pull origin main
 
-                export APP_PUBLIC_IP=98.81.9.103
+                export APP_PUBLIC_IP=54.152.73.129
                 export DB_PRIVATE_IP=172.31.44.216
 
                 docker-compose down
