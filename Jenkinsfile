@@ -30,10 +30,10 @@ pipeline {
                 docker-compose down
                 docker-compose up -d
                 docker compose up -d --force-recreate
-
                 docker ps
-                EOF
-                '''
+
+EOF
+'''
             }
         }
     }
