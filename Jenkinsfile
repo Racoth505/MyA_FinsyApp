@@ -32,7 +32,6 @@ pipeline {
                 docker-compose up -d
 
                 docker ps
-
 EOF
 '''
             }
